@@ -14,7 +14,6 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -40,8 +39,23 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        udpate_scores(team_1_name, team_1_score, team_2_score, &mut scores);
+        udpate_scores(team_2_name, team_2_score, team_1_score, &mut scores);
     }
     scores
+}
+
+fn udpate_scores(team_name: String, team_score: u8, team_conceded: u8, scores: &mut HashMap<String, Team>){
+    // goes into the Hashmap to check if the key exists,
+    // if it does then it moves on, if it doesn't then it
+    // adds a new record
+    let team = scores.entry(team_name.clone()).or_insert(Team {
+        name: team_name,
+        goals_scored: 0,
+        goals_conceded: 0
+    });
+    team.goals_scored += team_score;
+    team.goals_conceded += team_conceded;
 }
 
 #[cfg(test)]
